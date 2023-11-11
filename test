@@ -1,0 +1,57 @@
+import pygame
+import sys
+import math
+
+# Initialize Pygame
+pygame.init()
+
+# Constants
+WIDTH, HEIGHT = 800, 600
+PLAYER_SIZE = 50
+PLAYER_SPEED = 5
+FPS = 60
+
+# Colors
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+
+# Create the game window
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Simple FPS Game")
+
+# Create the player
+player = pygame.Rect(WIDTH // 2 - PLAYER_SIZE // 2, HEIGHT // 2 - PLAYER_SIZE // 2, PLAYER_SIZE, PLAYER_SIZE)
+
+# Clock to control the frame rate
+clock = pygame.time.Clock()
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    # Get the keys that are currently pressed
+    keys = pygame.key.get_pressed()
+
+    # Update player position based on keys
+    if keys[pygame.K_LEFT] and player.x - PLAYER_SPEED > 0:
+        player.x -= PLAYER_SPEED
+    if keys[pygame.K_RIGHT] and player.x + PLAYER_SIZE + PLAYER_SPEED < WIDTH:
+        player.x += PLAYER_SPEED
+    if keys[pygame.K_UP] and player.y - PLAYER_SPEED > 0:
+        player.y -= PLAYER_SPEED
+    if keys[pygame.K_DOWN] and player.y + PLAYER_SIZE + PLAYER_SPEED < HEIGHT:
+        player.y += PLAYER_SPEED
+
+    # Clear the screen
+    screen.fill(WHITE)
+
+    # Draw the player
+    pygame.draw.rect(screen, RED, player)
+
+    # Update the display
+    pygame.display.flip()
+
+    # Cap the frame rate
+    clock.tick(FPS)
